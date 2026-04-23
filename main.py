@@ -15,8 +15,7 @@ pd.read_sql("""SELECT * FROM sqlite_master""", conn)
 df_boston = pd.read_sql(""" 
         SELECT
         e.firstName, 
-        e.lastName,
-        e.jobTitle
+        e.lastName
         FROM employees e
         JOIN offices o ON e.officeCode = o.officeCode
         WHERE o.city = 'Boston'    
@@ -135,8 +134,7 @@ df_customers = pd.read_sql("""
             FROM offices of
             JOIN employees e ON of.officeCode = e.officeCode
             JOIN customers c ON e.employeeNumber = c.salesRepEmployeeNumber
-            GROUP BY of.officeCode
-            ORDER BY n_customers DESC               
+            GROUP BY of.officeCode               
                            """, conn)
 print(df_customers)
 
@@ -159,7 +157,8 @@ df_under_20 = pd.read_sql("""
                 JOIN orders o ON c.customerNumber = o.customerNumber
                 JOIN orderdetails od ON o.orderNumber = od.orderNumber
                 WHERE od.productCode IN
-                    (SELECT productCode FROM low_reach_products)              
+                    (SELECT productCode FROM low_reach_products) 
+                ORDER BY e.lastName             
                           """, conn)
 print(df_under_20)
 
